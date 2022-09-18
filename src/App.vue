@@ -3,16 +3,19 @@
     <router-link to="/login">登录</router-link>
     <router-link to="/main">首页</router-link>
     <h2>{{ $store.state.name }}</h2>
+    <el-button>I am ElButton</el-button>
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+import { ElButton } from 'element-plus/lib/index'
 export default defineComponent({
   name: 'App',
-  components: {}
+  components: {
+    ElButton
+  }
 })
 </script>
 
