@@ -16,6 +16,8 @@ module.exports = {
     // 组件名称检查
     'vue/multi-word-component-names': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    // any类型警告
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 }

@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { registerApp } from './global'
 // import ElementPlus from 'element-plus'
 // import 'element-plus/dist/index.css'
+import acRequset from './service'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -15,3 +16,16 @@ registerApp(app)
 app.use(router)
 app.use(store)
 app.mount('#app')
+
+interface DataType {
+  data: any
+}
+
+acRequset
+  .get<DataType>({
+    url: '/',
+    showLoading: true
+  })
+  .then((res) => {
+    console.log(res, '1')
+  })
