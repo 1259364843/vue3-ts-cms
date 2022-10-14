@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    // 目标代码
     "target": "esnext",
     "module": "esnext",
+    // 严格模式
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "node",
