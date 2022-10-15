@@ -22,6 +22,7 @@ import { defineComponent, reactive } from 'vue'
 export default defineComponent({
   name: 'LoginPhone',
   setup() {
+    // 1.属性
     const phone = reactive({
       num: '',
       code: ''
@@ -50,7 +51,11 @@ export default defineComponent({
         }
       ]
     }
-    return { phone, rules }
+    // 2.方法
+    const loginAction = () => {
+      console.log('手机登录')
+    }
+    return { phone, rules, loginAction }
   }
 })
 </script>

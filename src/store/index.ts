@@ -1,14 +1,21 @@
 import { createStore } from 'vuex'
-
-const store = createStore({
+import { IRootState } from './types'
+// 导入各个子模块
+import login from './login/login'
+const store = createStore<IRootState>({
   state() {
     return {
-      name: 'sch'
+      name: 'sch',
+      age: 22
     }
   },
   mutations: {},
   getters: {},
-  actions: {}
+  actions: {},
+  // 模块
+  modules: {
+    login
+  }
 })
 
 export default store

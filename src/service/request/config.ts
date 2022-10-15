@@ -3,11 +3,10 @@ let BASE_URL = ''
 const TIME_OUT = 10000
 
 if (process.env.NODE_ENV === 'development') {
-  // BASE_URL = 'http://152.136.185.210:4000'
-  BASE_URL = 'https://api.2xb.cn/RainbowWord'
+  BASE_URL = '/api'
 } else if (process.env.NODE_ENV === 'production') {
-  BASE_URL = 'https://api.2xb.cn/RainbowWord'
+  BASE_URL = '/api'
 } else {
-  BASE_URL = 'https://api.2xb.cn/RainbowWord'
+  BASE_URL = '/api'
 }
 export { BASE_URL, TIME_OUT }

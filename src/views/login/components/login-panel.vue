@@ -1,8 +1,14 @@
 <template>
   <div class="login-panel">
     <h1 class="title">后台管理系统</h1>
-    <el-tabs type="border-card" stretch class="demo-tabs">
-      <el-tab-pane>
+    <el-tabs
+      type="border-card"
+      stretch
+      class="demo-tabs"
+      v-model="activeName"
+      @tab-change="tabChange"
+    >
+      <el-tab-pane name="account">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon><User /></el-icon>
@@ -10,16 +16,16 @@
           </span>
         </template>
         <!-- 使用子组件 -->
-        <login-account ref="accourtRef" />
+        <login-account ref="accountRef" />
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon><Cellphone /></el-icon>
             <span>手机登录</span>
           </span>
         </template>
-        <login-phone />
+        <login-phone ref="phoneRef" />
       </el-tab-pane>
     </el-tabs>
     <!-- 按钮部分 -->
@@ -44,22 +50,43 @@ import LoginPhone from './login-phone.vue'
 export default defineComponent({
   components: { User, Cellphone, LoginAccount, LoginPhone },
   setup() {
-    // 属性
+    // 1.属性
+    const activeName = ref('account')
+    // 是否记住密码
     const isKeepPassword = ref(true)
     // 账号登录ref
-    const accourtRef = ref<InstanceType<typeof LoginAccount>>()
+    const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    // 手机登录ref
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+    // 当前的面板
     const currenTab = ref('account')
-    // 方法
+    // 2.方法
+    // tab切换
+    const tabChange = (tabName: string) => {
+      console.log(tabName)
+    }
+    // 登录按钮点击
     const handleLoginClick = () => {
       console.log(1)
-      // 调用子组件的方法
-      // value有值的时候调用，没值的时候不调用
-      accourtRef.value?.loginAction()
+      // 判断是账号登录还是手机登录
+      if (currenTab.value === 'account') {
+        // 调用子组件的方法并传值
+        // value有值的时候调用，没值的时候不调用
+
+        accountRef.value?.loginAction(isKeepPassword.value)
+      } else {
+        // 手机登录
+        phoneRef.value?.loginAction()
+      }
     }
+
     return {
+      activeName,
       isKeepPassword,
-      accourtRef,
+      accountRef,
+      phoneRef,
       currenTab,
+      tabChange,
       handleLoginClick
     }
   }

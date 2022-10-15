@@ -4,9 +4,28 @@ module.exports = defineConfig({
   transpileDependencies: true,
   outputDir: './build',
   publicPath: './',
-  chainWebpack: (config) => {
-    config.resolve.alias
-      .set('@', path.resolve(__dirname, 'src'))
-      .set('views', '@/views')
+  // 跨域配置
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://152.136.185.210:5000',
+        pathRewrite: {
+          '^/api': ''
+        },
+        changeOrigin: true
+      }
+    }
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        components: '@/components'
+      }
+    }
   }
+  // chainWebpack: (config) => {
+  //   config.resolve.alias
+  //     .set('@', path.resolve(__dirname, 'src'))
+  //     .set('views', '@/views')
+  // }
 })
