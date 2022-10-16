@@ -67,7 +67,6 @@ export default defineComponent({
     }
     // 登录按钮点击
     const handleLoginClick = () => {
-      console.log(1)
       // 判断是账号登录还是手机登录
       if (currenTab.value === 'account') {
         // 调用子组件的方法并传值

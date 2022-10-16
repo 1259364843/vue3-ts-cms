@@ -1,15 +1,29 @@
-// 登录接口
+import zlRequest from '..'
+import { IAccount, IDataType, ILoginResult } from './types'
 
-import acRequest from '../index'
-import { IAccount, IloginResult, IDataType } from './type'
-
-enum LoginAPI {
-  AccountLogin = '/login'
+enum loginAPI {
+  AccountLogin = '/login',
+  LoginUserInfo = '/users/', // /user/1   用户信息
+  UserMenus = '/role/' // role/1/menu  菜单信息
 }
+
 export function accountLoginRequest(account: IAccount) {
-  // post返回数据是IDataType类型，内部是IloginResult类型
-  return acRequest.post<IDataType<IloginResult>>({
-    url: LoginAPI.AccountLogin,
+  return zlRequest.post<IDataType<ILoginResult>>({
+    url: loginAPI.AccountLogin,
     data: account
+  })
+}
+
+export function requestUserInfoById(id: number) {
+  return zlRequest.get<IDataType>({
+    url: loginAPI.LoginUserInfo + id,
+    showLoading: false
+  })
+}
+// 获取用户菜单信息
+export function requestUserMenusByRoleId(id: number) {
+  return zlRequest.get<IDataType>({
+    url: loginAPI.UserMenus + id + '/menu',
+    showLoading: false
   })
 }

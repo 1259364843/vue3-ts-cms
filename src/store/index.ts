@@ -17,5 +17,10 @@ const store = createStore<IRootState>({
     login
   }
 })
-
+export function setupStore() {
+  store.dispatch('login/loadLocalLogin')
+  // store.dispatch('enter/watchData')
+  // store.dispatch('dashboard/getDashboarDataAction')
+  // store.dispatch('enter/getInitialDataAction')
+}
 export default store

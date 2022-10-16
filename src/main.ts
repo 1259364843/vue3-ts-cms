@@ -9,6 +9,7 @@ import './assets/css/index.less'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { setupStore } from './store'
 
 // createApp(App).use(router).use(store).use(ElementPlus).mount('#app')
 
@@ -18,4 +19,5 @@ const app = createApp(App)
 registerApp(app)
 app.use(router)
 app.use(store)
+setupStore()
 app.mount('#app')

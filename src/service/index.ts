@@ -1,35 +1,29 @@
-// 统一出口
-import ACRequest from './request'
-import { BASE_URL, TIME_OUT } from './request/config'
-// 新建一个请求类对象
-const acRequest = new ACRequest({
-  // 请求根路径
+import ZLRequest from './request'
+import { TIME_OUT, BASE_URL } from './request/config'
+
+import LocalCache from '@/utils/cache'
+
+const zlRequest = new ZLRequest({
   baseURL: BASE_URL,
-  // 超时时间
   timeout: TIME_OUT,
-  // 拦截器
   interceptors: {
     requestInterceptor: (config) => {
-      // 携带token
-      const token = ''
+      // 从本地缓存获取token
+      const token = LocalCache.getCache('token')
       if (token) {
-        // config.headers.Authorization = `Bearer${}`
+        config.headers!.Authorization = `Bearer ${token}`
       }
-      console.log('请求成功拦截')
       return config
     },
-    requestInterceptorCatch: (err) => {
-      console.log('请求失败拦截')
+    requestIntercetorCatch: (err) => {
       return err
     },
-    responseInterceptor: (config) => {
-      console.log('响应成功拦截')
-      return config
+    responseInterceptor: (res) => {
+      return res
     },
-    responseInterceptorCatch: (err) => {
-      console.log('响应失败拦截')
+    responseIntercetorCatch: (err) => {
       return err
     }
   }
 })
-export default acRequest
+export default zlRequest
