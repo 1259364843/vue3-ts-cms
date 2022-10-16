@@ -7,25 +7,25 @@ enum DashboardAPI {
   addressGoodsSale = '/goods/address/sale'
 }
 
-export function getCagegoryGoodsCount () {
+export function getCagegoryGoodsCount() {
   return zlRequest.get({
     url: DashboardAPI.categoryGoodsCount
   })
 }
 
-export function getCategoryGoodsSale () {
+export function getCategoryGoodsSale() {
   return zlRequest.get({
     url: DashboardAPI.categoryGoodsSale
   })
 }
 
-export function getCagegoryGoodsFavor () {
+export function getCagegoryGoodsFavor() {
   return zlRequest.get({
     url: DashboardAPI.categoryGoodsFavor
   })
 }
 
-export function getAddGoodsressSale () {
+export function getAddGoodsressSale() {
   return zlRequest.get({
     url: DashboardAPI.addressGoodsSale
   })
