@@ -1,5 +1,5 @@
-import { createStore } from 'vuex'
-import { IRootState } from './types'
+import { createStore, Store, useStore as baseUseStore } from 'vuex'
+import { IRootState, IStoreType } from './types'
 // 导入各个子模块
 import login from './login/login'
 const store = createStore<IRootState>({
@@ -22,5 +22,9 @@ export function setupStore() {
   // store.dispatch('enter/watchData')
   // store.dispatch('dashboard/getDashboarDataAction')
   // store.dispatch('enter/getInitialDataAction')
+}
+// 自己的useStore
+export function useStore(): Store<IStoreType> {
+  return baseUseStore()
 }
 export default store
