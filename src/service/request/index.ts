@@ -1,31 +1,27 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
-import type { ZLRequestInterceptors, ZLRequestConfig } from './type'
+import type { ACRequestInterceptors, ACRequestConfig } from './type'
 import { ElLoading } from 'element-plus/lib/index'
 
-class ZLRequest {
+// 使用类封装
+class ACRequest {
   instance: AxiosInstance
-  interceptors?: ZLRequestInterceptors
+  interceptors?: ACRequestInterceptors //拦截器,可选
   loading?: any
-  showLoading: boolean
-
-  constructor(config: ZLRequestConfig) {
+  showLoading: boolean //是否显示加载动画
+  // 配置信息
+  constructor(config: ACRequestConfig) {
+    // 根据config创建axios实例对象
     this.instance = axios.create(config)
+    // 保存自定义的拦截器
     this.interceptors = config.interceptors
     this.showLoading = config.showLoading ?? true
-
-    this.instance.interceptors.request.use(
-      this.interceptors?.requestInterceptor,
-      this.interceptors?.requestIntercetorCatch
-    )
-
-    this.instance.interceptors.response.use(
-      this.interceptors?.responseInterceptor,
-      this.interceptors?.requestIntercetorCatch
-    )
+    // 全局拦截器
     // 添加所有实例都有的拦截器
     this.instance.interceptors.request.use(
       (config) => {
+        console.log('全局请求拦截器')
+        // 显示加载动画
         if (this.showLoading) {
           this.loading = ElLoading.service({
             lock: true,
@@ -42,6 +38,7 @@ class ZLRequest {
 
     this.instance.interceptors.response.use(
       (res) => {
+        console.log('全局响应拦截器')
         this.loading?.close()
         const data = res.data
         if (data.returnCode === '-1001') {
@@ -57,19 +54,34 @@ class ZLRequest {
         return err
       }
     )
+    // 实例的拦截器,可选
+    this.instance.interceptors.request.use(
+      config.interceptors?.requestInterceptor,
+      config.interceptors?.requestInterceptorCatch
+    )
+    this.instance.interceptors.response.use(
+      config.interceptors?.responseInterceptor,
+      config.interceptors?.responseInterceptorCatch
+    )
   }
 
-  request<T = any>(config: ZLRequestConfig<T>): Promise<T> {
+  /**
+   * 1.请求方法
+   * @param config
+   * @returns Promise
+   */
+  request<T = any>(config: ACRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 单个请求config对数据处理
       if (config.showLoading === false) {
         this.showLoading = config.showLoading
       }
-
+      // 如果有自定义的拦截器,使用自定义拦截器
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
       }
 
+      // 调用axios的request方法
       this.instance
         .request<any, T>(config)
         .then((res) => {
@@ -89,28 +101,28 @@ class ZLRequest {
     })
   }
 
-  get<T = any>(config: ZLRequestConfig<T>): Promise<T> {
+  get<T = any>(config: ACRequestConfig<T>): Promise<T> {
     return this.request<T>({
       ...config,
       method: 'GET'
     })
   }
 
-  post<T = any>(config: ZLRequestConfig<T>): Promise<T> {
+  post<T = any>(config: ACRequestConfig<T>): Promise<T> {
     return this.request<T>({
       ...config,
       method: 'post'
     })
   }
 
-  delete<T = any>(config: ZLRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: ACRequestConfig<T>): Promise<T> {
     return this.request<T>({
       ...config,
       method: 'delete'
     })
   }
 
-  patch<T = any>(config: ZLRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: ACRequestConfig<T>): Promise<T> {
     return this.request<T>({
       ...config,
       method: 'patch'
@@ -118,4 +130,4 @@ class ZLRequest {
   }
 }
 
-export default ZLRequest
+export default ACRequest

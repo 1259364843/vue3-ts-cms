@@ -1,13 +1,18 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
-export interface ZLRequestInterceptors<T = AxiosResponse> {
+export interface ACRequestInterceptors<T = AxiosResponse> {
+  // 请求拦截器
   requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig
-  requestIntercetorCatch?: (error: any) => any
+  // 请求错误拦截器
+  requestInterceptorCatch?: (error: any) => any
+  // 响应拦截器
   responseInterceptor?: (config: T) => T
-  responseIntercetorCatch?: (error: any) => any
+  // 响应错误拦截器
+  responseInterceptorCatch?: (error: any) => any
 }
 
-export interface ZLRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
-  interceptors?: ZLRequestInterceptors<T>
+export interface ACRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
+  // 自定义配置参数
+  interceptors?: ACRequestInterceptors<T>
   showLoading?: boolean
 }
