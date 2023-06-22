@@ -23,6 +23,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 registerApp(app)
 app.use(router)
-app.use(store)
 setupStore()
+app.use(store)
 app.mount('#app')

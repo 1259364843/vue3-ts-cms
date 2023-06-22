@@ -27,7 +27,7 @@
             </template>
             <!-- 拿到二级菜单中的子菜单 -->
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.url">
+              <el-menu-item :index="subitem.url" @click="handleMenuItemClick">
                 <el-icon v-if="subitem.icon"><Menu /></el-icon>
                 <span>{{ subitem.name }}</span>
               </el-menu-item>
@@ -48,6 +48,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from '@/store'
 export default defineComponent({
   name: 'nav-menu',
@@ -61,8 +62,18 @@ export default defineComponent({
     const store = useStore()
     // 使用计算属性,获取store中的用户菜单数据
     const userMenus = computed(() => store.state.login.userMenus)
+    // 获取路由
+    const router = useRouter()
+    // 菜单点击处理方法
+    const handleMenuItemClick = (item: any) => {
+      console.log(item)
+      router.push({
+        path: item.index ?? '/notFound'
+      })
+    }
     return {
-      userMenus
+      userMenus,
+      handleMenuItemClick
     }
   }
 })
@@ -105,6 +116,7 @@ export default defineComponent({
   }
   .el-menu-item.is-active {
     background-color: #0a60bd;
+    color: #fff;
   }
   .el-menu-vertical:not(.el-menu--collapse) {
     width: 100%;

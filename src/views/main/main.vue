@@ -12,7 +12,6 @@
         </el-header>
         <el-main>
           <router-view />
-          <h1>main</h1>
         </el-main>
       </el-container>
     </el-container>

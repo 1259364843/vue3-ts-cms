@@ -10,6 +10,7 @@ import {
   requestUserMenusByRoleId
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
+import { mapMenusToRoutes } from '@/utils/map-menu'
 // 路由对象
 import router from '@/router'
 // Module必须传入泛型类型,两个参数,第一个是模块中state类型,第二个是根state的类型
@@ -33,6 +34,13 @@ const loginModule: Module<IloginState, IRootState> = {
     },
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+      // 动态获取用户的菜单和路由
+      const routes = mapMenusToRoutes(userMenus)
+      console.log(routes)
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
+      console.log(routes)
     }
   },
   getters: {},
