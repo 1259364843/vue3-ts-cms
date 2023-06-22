@@ -1,15 +1,14 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <!-- <el-aside :width="isFold ? '60px' : '210px'"> -->
-      <el-aside :width="'210px'">
-        <!-- <nav-menu :is-fold="isFold" /> -->
+      <!-- 菜单展开与关闭状态 -->
+      <el-aside :width="isCollapse ? '60px' : '210px'">
+        <nav-menu :collapse="isCollapse" />
         <nav-menu />
       </el-aside>
       <el-container>
         <el-header height="48px">
-          <h2>header</h2>
-          <!-- <nav-header @fold-change="handleFoldChange" /> -->
+          <nav-header @fold-change="handleFoldChange" />
         </el-header>
         <el-main>
           <router-view />
@@ -21,13 +20,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 // 导入组件
 import NavMenu from '@/components/nav-menu'
+import navHeader from '@/components/nav-header'
 export default defineComponent({
-  components: { NavMenu },
+  components: { NavMenu, navHeader },
   setup() {
-    return {}
+    // 菜单折叠按钮点击
+    const isCollapse = ref(false)
+    const handleFoldChange = (isFold: boolean) => {
+      isCollapse.value = isFold
+    }
+    return {
+      isCollapse,
+      handleFoldChange
+    }
   }
 })
 </script>

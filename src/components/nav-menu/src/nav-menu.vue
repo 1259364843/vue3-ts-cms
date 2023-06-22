@@ -3,12 +3,13 @@
   <div class="nav-menu">
     <!-- 1.logo -->
     <div class="logo">
-      <img class="img" src="@/assets/img/logo.svg" alt="logo" />
+      <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
       <!-- <span v-show="!isFold" class="title">管理系统</span> -->
-      <span class="title">管理系统</span>
+      <span v-if="!collapse" class="title">管理系统</span>
     </div>
     <!-- 2.菜单 -->
     <el-menu
+      :collapse="collapse"
       default-active="1"
       class="el-menu-vertical"
       background-color="#0c2135"
@@ -21,13 +22,13 @@
           <el-sub-menu :index="item.url">
             <!-- 二级菜单标题 -->
             <template #title>
-              <i v-if="item.icon" :class="item.icon"></i>
+              <el-icon v-if="item.icon"><Menu /></el-icon>
               <span>{{ item.name }}</span>
             </template>
             <!-- 拿到二级菜单中的子菜单 -->
             <template v-for="subitem in item.children" :key="subitem.id">
               <el-menu-item :index="subitem.url">
-                <i v-if="subitem.icon" :class="subitem.icon"></i>
+                <el-icon v-if="subitem.icon"><Menu /></el-icon>
                 <span>{{ subitem.name }}</span>
               </el-menu-item>
             </template>
@@ -49,9 +50,16 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 export default defineComponent({
-  name: 'App',
+  name: 'nav-menu',
+  props: {
+    collapse: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup() {
     const store = useStore()
+    // 使用计算属性,获取store中的用户菜单数据
     const userMenus = computed(() => store.state.login.userMenus)
     return {
       userMenus
@@ -97,6 +105,10 @@ export default defineComponent({
   }
   .el-menu-item.is-active {
     background-color: #0a60bd;
+  }
+  .el-menu-vertical:not(.el-menu--collapse) {
+    width: 100%;
+    height: calc(100% - 48px);
   }
 }
 </style>
