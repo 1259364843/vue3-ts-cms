@@ -35,6 +35,7 @@ export default defineComponent({
     const store = useStore()
     // 表单input绑定属性
     const loginForm = reactive({
+      // 从本地缓存中获取记住的账号和密码
       name: localCache.getCache('name') ?? '',
       password: localCache.getCache('password') ?? ''
     })
@@ -47,7 +48,7 @@ export default defineComponent({
       // 表单预校验
       ruleFormRef.value?.validate((valid) => {
         console.log(valid)
-        // 判断是否经过预校验
+        // 判断是否经过预校验:开始执行登录逻辑
         if (valid) {
           console.log('账号登录')
           // 1.判断是否记住密码

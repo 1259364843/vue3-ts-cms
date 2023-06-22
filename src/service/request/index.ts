@@ -109,6 +109,7 @@ class ACRequest {
   }
 
   post<T = any>(config: ACRequestConfig<T>): Promise<T> {
+    console.log(config)
     return this.request<T>({
       ...config,
       method: 'post'

@@ -71,7 +71,7 @@ export default defineComponent({
       if (currenTab.value === 'account') {
         // 调用子组件的方法并传值
         // value有值的时候调用，没值的时候不调用
-
+        // ?可选链
         accountRef.value?.loginAction(isKeepPassword.value)
       } else {
         // 手机登录

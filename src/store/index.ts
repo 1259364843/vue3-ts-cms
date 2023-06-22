@@ -14,7 +14,7 @@ const store = createStore<IRootState>({
   actions: {},
   // 模块
   modules: {
-    login
+    login //登录模块
   }
 })
 export function setupStore() {

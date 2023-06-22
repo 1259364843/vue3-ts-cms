@@ -1,5 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
+const address = 'http://123.207.32.32:5000'
+// target: 'http://codercba.com:5000/',
 module.exports = defineConfig({
   transpileDependencies: true,
   outputDir: './build',
@@ -8,10 +10,10 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '^/api': {
-        target: 'http://152.136.185.210:5000',
         pathRewrite: {
           '^/api': ''
         },
+        target: address,
         changeOrigin: true
       }
     }

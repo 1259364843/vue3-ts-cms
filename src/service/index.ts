@@ -2,6 +2,7 @@ import ACRequest from './request'
 import { TIME_OUT, BASE_URL } from './request/config'
 
 import LocalCache from '@/utils/cache'
+console.log(BASE_URL)
 
 const acRequest = new ACRequest({
   baseURL: BASE_URL,

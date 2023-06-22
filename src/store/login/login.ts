@@ -2,9 +2,8 @@ import { Module } from 'vuex'
 // 导入类型
 import { IloginState } from './types'
 import { IRootState } from '../types'
-
 // 登录接口
-import { IAccount } from '@/service/login/type'
+import { IAccount } from '@/service/login/types'
 import {
   accountLoginRequest,
   requestUserInfoById,
@@ -13,14 +12,15 @@ import {
 import localCache from '@/utils/cache'
 // 路由对象
 import router from '@/router'
+// Module必须传入泛型类型,两个参数,第一个是模块中state类型,第二个是根state的类型
 const loginModule: Module<IloginState, IRootState> = {
   // 命名空间
   namespaced: true,
   state() {
     return {
       token: '',
-      userInfo: {},
-      userMenus: []
+      userInfo: {}, //用户信息
+      userMenus: [] //用户菜单信息
     }
   },
   mutations: {
