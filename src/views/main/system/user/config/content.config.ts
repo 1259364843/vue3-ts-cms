@@ -1,6 +1,6 @@
 //配置tabel的格式
 export const contentConfig = {
-  //用户标题
+  //表格标题
   title: '用户列表',
   //header插槽的控制
   header: '新建用户',

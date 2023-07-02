@@ -3,6 +3,7 @@ type IFormType = 'input' | 'password' | 'select' | 'datepicker'
 // 表单配置项
 export interface IFormItem {
   field: string // 指定字段
+
   type: IFormType
   clearable?: boolean //是否可清空
   label: string
@@ -22,4 +23,5 @@ export interface IForm {
   itemStyle?: any
   // 布局
   colLayout?: any
+  title?: string
 }
