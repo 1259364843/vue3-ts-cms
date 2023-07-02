@@ -3,7 +3,7 @@
     <h2>表格组件</h2>
     <el-table :data="listData" border stripe height="250" style="width: 100%">
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem">
+        <el-table-column v-bind="propItem" align="center">
           <template #default="scope">
             <!-- 将row传到上一层 -->
             <slot :name="propItem.slotName" :row="scope.row">

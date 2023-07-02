@@ -12,10 +12,10 @@
           }}</el-button>
         </template>
         <template #createAt="scope">
-          <strong type="">{{ scope.row.createAt }}</strong>
+          <strong type="">{{ $filters.formatTime(scope.row.createAt) }}</strong>
         </template>
         <template #updateAt="scope">
-          <strong type="">{{ scope.row.updateAt }}</strong>
+          <strong type="">{{ $filters.formatTime(scope.row.updateAt) }}</strong>
         </template>
       </CHTable>
     </div>
