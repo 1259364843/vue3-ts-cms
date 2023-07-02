@@ -1,7 +1,38 @@
 <template>
-  <div class="table">
-    <h2>表格组件</h2>
-    <el-table :data="listData" border stripe height="250" style="width: 100%">
+  <div class="page-content">
+    <!-- 1.头部 -->
+    <div class="header">
+      <slot name="header">
+        <!-- 表格标题 -->
+        <div class="title">{{ title }}</div>
+        <!-- 表格头部操作 -->
+        <div class="handler">
+          <slot name="headerHandler"></slot>
+        </div>
+      </slot>
+    </div>
+    <!-- 2.表格 -->
+    <el-table
+      :data="listData"
+      border
+      stripe
+      height="250"
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+    >
+      <!-- 是否是多选列 -->
+      <el-table-column
+        v-if="showSelectColumn"
+        type="selection"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        v-if="showIndexColumn"
+        type="index"
+        label="序号"
+        align="center"
+        width="60"
+      ></el-table-column>
       <template v-for="propItem in propList" :key="propItem.prop">
         <el-table-column v-bind="propItem" align="center">
           <template #default="scope">
@@ -14,6 +45,28 @@
         </el-table-column>
       </template>
     </el-table>
+    <!-- 3.页脚 -->
+    <div class="footer">
+      <slot name="footer">
+        <el-pagination
+          :page-sizes="[100, 200, 300, 400]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="400"
+        />
+        <!-- <el-pagination
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :page-sizes="[100, 200, 300, 400]"
+          :small="small"
+          :disabled="disabled"
+          :background="background"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="400"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        /> -->
+      </slot>
+    </div>
   </div>
 </template>
 
@@ -22,6 +75,11 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
+    // 表格标题
+    title: {
+      type: String,
+      required: true
+    },
     listData: {
       type: Array,
       required: true
@@ -29,12 +87,53 @@ export default defineComponent({
     propList: {
       type: Array,
       required: true
+    },
+    // 是否显示序号
+    showIndexColumn: {
+      type: Boolean,
+      required: false
+    },
+    //是否可以多选列
+    showSelectColumn: {
+      type: Boolean,
+      default: false
     }
   },
-  setup() {
-    return {}
+  emits: ['selectionChange'],
+  setup(props, { emit }) {
+    // 表格数据选中
+    const handleSelectionChange = (value: any) => {
+      emit('selectionChange', value)
+    }
+    return { handleSelectionChange }
   }
 })
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.page-content {
+  padding: 10px;
+  border-top: 20px solid #f5f5f5;
+
+  .header {
+    display: flex;
+    height: 45px;
+    margin: 0 5px;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    .handler {
+      align-items: center;
+    }
+  }
+  .footer {
+    text-align: right;
+    padding-top: 5px;
+  }
+}
+</style>
