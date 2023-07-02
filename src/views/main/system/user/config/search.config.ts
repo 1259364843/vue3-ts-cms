@@ -1,23 +1,26 @@
 import { IForm } from '@/baseui/form'
 
-export const formConfig: IForm = {
+export const searchFormConfig: IForm = {
   labelWidth: '100px',
   formItems: [
     {
       field: 'username',
       type: 'input',
+      clearable: true,
       label: '用户名',
       placeholder: '请输入用户名'
     },
     {
       field: 'password',
       type: 'password',
+      clearable: true,
       label: '密码',
       placeholder: '请输入密码'
     },
     {
       field: 'like',
       type: 'select',
+      clearable: true,
       label: '爱好',
       placeholder: '请选择爱好',
       options: [
@@ -42,6 +45,7 @@ export const formConfig: IForm = {
     {
       field: 'date',
       type: 'datepicker',
+      clearable: true,
       label: '创建时间',
       placeholder: '请选择创建时间',
       otherOptions: {

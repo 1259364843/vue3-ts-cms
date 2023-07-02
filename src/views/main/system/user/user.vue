@@ -1,29 +1,23 @@
 <template>
-  <div>
-    <CHFrom v-bind="formConfig" v-model="formData" />
+  <div class="user">
+    <div class="content">
+      <page-search :searchFormConfig="searchFormConfig" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
-import { formConfig } from './config/search.config'
-import CHFrom from '@/baseui/form'
+import PageSearch from '@/components/page-search'
+import { searchFormConfig } from './config/search.config'
 export default {
   name: 'user',
-  components: { CHFrom },
+  components: { PageSearch },
   setup() {
-    const formData = ref({
-      username: '',
-      password: '',
-      like: '',
-      date: ''
-    })
     return {
-      formConfig,
-      formData
+      searchFormConfig
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped></style>

@@ -2,6 +2,9 @@
   <div class="ch-form">
     <!-- 封装搜索表单组件 -->
     <!-- <h1>表单</h1> -->
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
@@ -17,6 +20,7 @@
                 v-if="item.type === 'input' || item.type === 'password'"
               >
                 <el-input
+                  :clearable="item.clearable"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                   v-model="formData[`${item.field}`]"
@@ -26,6 +30,7 @@
               <!-- 1.2选择器 -->
               <template v-else-if="item.type === 'select'">
                 <el-select
+                  :clearable="item.clearable"
                   :placeholder="item.placeholder"
                   style="width: 100%"
                   v-model="formData[`${item.field}`]"
@@ -44,6 +49,7 @@
               <!-- 1.3日期新选择器 -->
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
+                  :clearable="item.clearable"
                   type="date"
                   align="right"
                   :placeholder="item.placeholder"
@@ -57,6 +63,9 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
@@ -113,4 +122,8 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.header {
+  text-align: center;
+}
+</style>

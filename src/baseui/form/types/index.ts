@@ -4,6 +4,7 @@ type IFormType = 'input' | 'password' | 'select' | 'datepicker'
 export interface IFormItem {
   field: string // 指定字段
   type: IFormType
+  clearable?: boolean //是否可清空
   label: string
   placeholder?: any //可选
   rules?: any[] //校验规则,可选
