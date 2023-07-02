@@ -2,6 +2,8 @@ import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import { IRootState, IStoreType } from './types'
 // 导入各个子模块
 import login from './login/login'
+// 系统管理
+import system from './main/system/system'
 const store = createStore<IRootState>({
   state() {
     return {
@@ -14,7 +16,8 @@ const store = createStore<IRootState>({
   actions: {},
   // 模块
   modules: {
-    login //登录模块
+    login, //登录模块
+    system //系统管理模块
   }
 })
 export function setupStore() {

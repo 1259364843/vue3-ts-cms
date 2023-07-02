@@ -1,6 +1,6 @@
 import acRequest from '..'
-import { IAccount, IDataType, ILoginResult } from './types'
-
+import { IAccount, ILoginResult } from './types'
+import { IDataType } from '../types'
 enum loginAPI {
   AccountLogin = '/login',
   LoginUserInfo = '/users/', // /user/1   用户信息
