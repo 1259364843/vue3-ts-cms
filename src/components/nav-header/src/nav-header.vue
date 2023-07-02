@@ -7,6 +7,7 @@
       </el-icon>
     </div>
     <div class="content">
+      <nav-breadcrumb :breadcrumbs="breadcrumbs" />
       <!-- <header-crumb /> -->
       <!-- <header-info /> -->
     </div>
@@ -14,9 +15,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
+import { useStore } from '@/store'
+import { useRoute } from 'vue-router'
+import NavBreadcrumb from '@/baseui/breadcrumb'
+import { mapPathToBreadcrumbs } from '@/utils/map-menu'
 export default defineComponent({
   name: 'nav-header',
+  components: { NavBreadcrumb },
   emits: ['foldChange'],
   setup(prop, { emit }) {
     const isFold = ref(false)
@@ -26,7 +32,14 @@ export default defineComponent({
       // 向父组件传递事件
       emit('foldChange', isFold.value)
     }
-    return { isFold, handleFoldClick }
+    const store = useStore()
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const route = useRoute()
+      const currentPath = route.path
+      return mapPathToBreadcrumbs(userMenus, currentPath)
+    })
+    return { isFold, handleFoldClick, breadcrumbs }
   }
 })
 </script>
