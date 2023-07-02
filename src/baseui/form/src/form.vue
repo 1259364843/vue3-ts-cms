@@ -4,7 +4,7 @@
     <!-- <h1>表单</h1> -->
     <el-form :label-width="labelWidth">
       <el-row>
-        <template v-for="item in formItem" :key="item.label">
+        <template v-for="item in formItems" :key="item.label">
           <el-col :span="8" v-bind="colLayout">
             <el-form-item
               :label="item.label"
@@ -19,16 +19,22 @@
                 <el-input
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
+                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                 ></el-input>
               </template>
               <!-- 1.2选择器 -->
               <template v-else-if="item.type === 'select'">
-                <el-select :placeholder="item.placeholder" style="width: 100%">
+                <el-select
+                  :placeholder="item.placeholder"
+                  style="width: 100%"
+                  v-model="formData[`${item.field}`]"
+                >
                   <el-option
                     v-for="option in item.options"
                     :key="option.value"
                     :value="option.value"
+                    :label="option.label"
                     v-bind="item.otherOptions"
                   >
                     {{ option.label }}
@@ -41,6 +47,7 @@
                   type="date"
                   align="right"
                   :placeholder="item.placeholder"
+                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                 >
                 </el-date-picker>
@@ -54,16 +61,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from '../types/index'
 export default defineComponent({
+  emits: ['update:modelValue'],
   props: {
+    // 双向数据绑定
+    modelValue: {
+      type: Object,
+      required: true
+    },
     labelWidth: {
       type: String,
       default: '100px'
     },
     // 表单配置
-    formItem: {
+    formItems: {
       type: Array as PropType<IFormItem[]>,
       // 默认值空数组
       default: () => []
@@ -85,8 +98,17 @@ export default defineComponent({
       })
     }
   },
-  setup() {
-    return {}
+  setup(props, { emit }) {
+    // 拷贝一份prop属性
+    const formData = ref({ ...props.modelValue })
+    watch(
+      formData,
+      (newValue) => {
+        emit('update:modelValue', newValue)
+      },
+      { deep: true }
+    )
+    return { formData }
   }
 })
 </script>

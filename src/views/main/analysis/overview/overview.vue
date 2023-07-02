@@ -1,7 +1,7 @@
 <template>
   <div class="overview">
     <h2>overview</h2>
-    <CHFrom :formItem="formItems" :itemStyle="itemStyle" />
+    <CHFrom :formItems="formItems" :itemStyle="itemStyle" />
     <!-- <CHFrom v-bind="formConfig" /> -->
   </div>
 </template>
@@ -17,16 +17,19 @@ export default defineComponent({
   setup() {
     const formItems: IFormItem[] = [
       {
+        field: 'username',
         type: 'input',
         label: '用户名',
         placeholder: '请输入用户名'
       },
       {
+        field: 'password',
         type: 'password',
         label: '密码',
         placeholder: '请输入密码'
       },
       {
+        field: 'like',
         type: 'select',
         label: '爱好',
         placeholder: '请选择爱好',
@@ -50,6 +53,7 @@ export default defineComponent({
         ]
       },
       {
+        field: 'date',
         type: 'datepicker',
         label: '创建时间',
         placeholder: '请选择创建时间',
@@ -64,7 +68,7 @@ export default defineComponent({
     const itemStyle = {
       padding: '10px 40px'
     }
-    console.log(formConfig)
+    // console.log(formConfig)
 
     return {
       formItems,

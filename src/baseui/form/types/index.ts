@@ -2,6 +2,7 @@
 type IFormType = 'input' | 'password' | 'select' | 'datepicker'
 // 表单配置项
 export interface IFormItem {
+  field: string // 指定字段
   type: IFormType
   label: string
   placeholder?: any //可选

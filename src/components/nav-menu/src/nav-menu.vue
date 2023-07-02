@@ -10,7 +10,7 @@
     <!-- 2.菜单 -->
     <el-menu
       :collapse="collapse"
-      default-active="1"
+      :default-active="defaultMenu"
       class="el-menu-vertical"
       background-color="#0c2135"
       text-color="#b7bdc3"
@@ -47,9 +47,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/store'
+import { mapPathToMenu } from '@/utils/map-menu'
 export default defineComponent({
   name: 'nav-menu',
   props: {
@@ -64,15 +65,20 @@ export default defineComponent({
     const userMenus = computed(() => store.state.login.userMenus)
     // 获取路由
     const router = useRouter()
+    const route = useRoute()
+    // 当前路由path
+    const currentPath = route.path
+    const menu = mapPathToMenu(userMenus.value, currentPath)
+    const defaultMenu = ref(menu.id + '')
     // 菜单点击处理方法
     const handleMenuItemClick = (item: any) => {
-      console.log(item)
       router.push({
         path: item.index ?? '/notFound'
       })
     }
     return {
       userMenus,
+      defaultMenu,
       handleMenuItemClick
     }
   }

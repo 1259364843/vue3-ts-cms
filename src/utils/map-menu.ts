@@ -1,5 +1,6 @@
 // 路由对象的类型
 import { RouteRecordRaw } from 'vue-router'
+import { Ibreadcrumb } from '@/baseui/breadcrumb/types'
 // 将菜单的url映射为路由的path
 // 参数为数组
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
@@ -34,4 +35,32 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   }
   _recurseGetRoute(userMenus)
   return routes
+}
+// 路由path映射菜单
+export function mapPathToMenu(userMenus: any[], currentPath: string): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      const findMenu = mapPathToMenu(menu.children ?? [], currentPath)
+      if (findMenu) {
+        return findMenu
+      }
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu
+    }
+  }
+}
+
+// 路径生成面包屑数据
+export function mapPathToBreadcrumbs(menus: any[], path: string) {
+  const breadcrumbs: Ibreadcrumb[] = []
+  // 1.两层遍历
+  for (const menu of menus) {
+    for (const submenu of menu.children) {
+      if (path === submenu.url) {
+        breadcrumbs.push({ name: menu.name, path: menu.url })
+        breadcrumbs.push({ name: submenu.name, path: submenu.url })
+      }
+    }
+  }
+  return breadcrumbs
 }
