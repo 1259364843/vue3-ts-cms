@@ -9,7 +9,7 @@
           <el-button type="primary"
             ><el-icon><Search /></el-icon>搜索</el-button
           >
-          <el-button type="primary"
+          <el-button type="primary" @click="handleResetClick"
             ><el-icon><RefreshLeft /></el-icon>重置</el-button
           >
         </div>
@@ -29,16 +29,29 @@ export default {
     }
   },
   components: { CHForm },
-  setup() {
-    const formData = ref({
-      username: '',
-      password: '',
-      like: '',
-      date: ''
-    })
+  setup(props: any) {
+    // 双向数据绑定的属性由配置文件的field决定
+    const formItems = props.searchFormConfig?.formItems ?? []
+    const formOriginData: any = {}
+    for (const item of formItems) {
+      console.log(item)
+      formOriginData[item.field] = ''
+    }
+    // 动态的双向数据绑定
+    const formData = ref(formOriginData)
+    // const formData = ref({
+    //   username: '',
+    //   password: '',
+    //   like: '',
+    //   date: ''
+    // })
+    // 重置输入框
+    const handleResetClick = () => {
+      formData.value = formOriginData
+    }
     return {
-      // formConfig,
-      formData
+      formData,
+      handleResetClick
     }
   }
 }

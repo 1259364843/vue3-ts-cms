@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, PropType, ref, watch, computed } from 'vue'
 import { IFormItem } from '../types/index'
 export default defineComponent({
   emits: ['update:modelValue'],
@@ -110,6 +110,14 @@ export default defineComponent({
   setup(props, { emit }) {
     // 拷贝一份prop属性
     const formData = ref({ ...props.modelValue })
+    // const formData = computed(() => ({ ...props.modelValue }))
+    watch(
+      () => props.modelValue,
+      (newValue) => {
+        // console.log(newValue)
+        formData.value = { ...newValue }
+      }
+    )
     watch(
       formData,
       (newValue) => {
