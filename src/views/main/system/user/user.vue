@@ -4,7 +4,7 @@
       <page-search :searchFormConfig="searchFormConfig" />
     </div>
     <div class="list">
-      <PageTable :contentConfig="contentConfig" :pageName="'user'"></PageTable>
+      <PageTable :contentConfig="contentConfig" :pageName="'users'"></PageTable>
     </div>
   </div>
 </template>

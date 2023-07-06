@@ -63,7 +63,7 @@ export default defineComponent({
       store.getters[`system/pageListData`](props.pageName)
     )
     // 获取总数
-    const userCount = computed(() => store.state.system.userCount)
+    const usersCount = computed(() => store.state.system.usersCount)
     const handleSizeChange = () => {
       console.log(1)
     }
@@ -72,7 +72,7 @@ export default defineComponent({
     }
     return {
       listData,
-      userCount,
+      usersCount,
       handleSizeChange,
       handleCurrentChange
     }
