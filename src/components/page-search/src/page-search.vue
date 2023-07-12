@@ -47,7 +47,10 @@ export default {
     // })
     // 重置输入框
     const handleResetClick = () => {
-      formData.value = formOriginData
+      for (const key in formOriginData) {
+        formData.value[`${key}`] = formOriginData[key]
+      }
+      // formData.value = formOriginData
     }
     return {
       formData,
