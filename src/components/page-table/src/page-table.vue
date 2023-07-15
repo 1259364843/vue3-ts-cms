@@ -1,7 +1,12 @@
 <template>
   <div>
     <!-- 自定义的表格组件 -->
-    <CHTable :listData="listData" v-bind="contentConfig">
+    <CHTable
+      :listData="listData"
+      :listCount="dataCount"
+      v-bind="contentConfig"
+      v-model:page="pageInfo"
+    >
       <!-- 1.header的插槽 -->
       <template #headerHandler>
         <el-button>新建用户</el-button>
@@ -31,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useStore } from '@/store'
 import CHTable from '@/baseui/table'
 export default defineComponent({
@@ -47,15 +52,25 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      // pageUrl: '/users/list',
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
+    // 分页信息
+    const pageInfo = ref({
+      currentPage: 0,
+      pageSize: 10
     })
+    const store = useStore()
+    // 发送网络请求
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        // pageUrl: '/users/list',
+        pageName: props.pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      })
+    }
+    getPageData()
     // 获取store数据
     // const listData = computed(() => store.state.system.userList)
     //获取list
@@ -63,7 +78,9 @@ export default defineComponent({
       store.getters[`system/pageListData`](props.pageName)
     )
     // 获取总数
-    const usersCount = computed(() => store.state.system.usersCount)
+    const dataCount = computed(() =>
+      store.getters[`system/pageListCount`](props.pageName)
+    )
     const handleSizeChange = () => {
       console.log(1)
     }
@@ -72,9 +89,11 @@ export default defineComponent({
     }
     return {
       listData,
-      usersCount,
+      dataCount,
       handleSizeChange,
-      handleCurrentChange
+      handleCurrentChange,
+      getPageData,
+      pageInfo
     }
   }
 })

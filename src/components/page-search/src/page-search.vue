@@ -6,7 +6,7 @@
       </template>
       <template #footer>
         <div class="hanlde-btns">
-          <el-button type="primary"
+          <el-button type="primary" @click="handleQuery"
             ><el-icon><Search /></el-icon>搜索</el-button
           >
           <el-button type="primary" @click="handleResetClick"
@@ -29,7 +29,8 @@ export default {
     }
   },
   components: { CHForm },
-  setup(props: any) {
+  emits: ['resetBtnClick', 'queryBtnClick'],
+  setup(props: any, { emit }: any) {
     // 双向数据绑定的属性由配置文件的field决定
     const formItems = props.searchFormConfig?.formItems ?? []
     const formOriginData: any = {}
@@ -51,10 +52,17 @@ export default {
         formData.value[`${key}`] = formOriginData[key]
       }
       // formData.value = formOriginData
+      emit('resetBtnClick')
+    }
+    // 搜索
+    const handleQuery = () => {
+      console.log('点击搜索')
+      emit('queryBtnClick', formData.value)
     }
     return {
       formData,
-      handleResetClick
+      handleResetClick,
+      handleQuery
     }
   }
 }

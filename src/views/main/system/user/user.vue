@@ -1,25 +1,38 @@
 <template>
   <div class="user">
     <div class="content">
-      <page-search :searchFormConfig="searchFormConfig" />
+      <page-search
+        :searchFormConfig="searchFormConfig"
+        @resetBtnClick="handleReset"
+        @queryBtnClick="handleQuery"
+      />
     </div>
     <div class="list">
-      <PageTable :contentConfig="contentConfig" :pageName="'users'"></PageTable>
+      <PageTable
+        :contentConfig="contentConfig"
+        :pageName="'users'"
+        ref="pageTableRef"
+      ></PageTable>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed } from 'vue'
+import { ref } from 'vue'
 import PageSearch from '@/components/page-search'
 import PageTable from '@/components/page-table'
 import { searchFormConfig } from './config/search.config'
 import { useStore } from '@/store'
 import { contentConfig } from './config/content.config'
+// hook
+import { usePageSearch } from '@/hooks/use-page-search'
 export default {
   name: 'user',
   components: { PageSearch, PageTable },
   setup() {
+    // hooks
+    const [pageTableRef, handleReset, handleQuery] = usePageSearch()
+    // const pageTableRef = ref<InstanceType<typeof PageTable>>()
     const store = useStore()
     // store.dispatch('system/getPageListAction', {
     //   pageUrl: '/users/list',
@@ -37,11 +50,22 @@ export default {
     const handleCurrentChange = () => {
       console.log(1)
     }
+    // 重置
+    // const handleReset = () => {
+    //   console.log('user-重置')
+    // }
+    // const handleQuery = (queryInfo: any) => {
+    //   console.log('user-搜索')
+    //   pageTableRef.value?.getPageData(queryInfo)
+    // }
     return {
       searchFormConfig,
       contentConfig,
       handleSizeChange,
-      handleCurrentChange
+      handleCurrentChange,
+      handleReset,
+      handleQuery,
+      pageTableRef
     }
   }
 }

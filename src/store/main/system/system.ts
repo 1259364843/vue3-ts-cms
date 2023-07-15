@@ -26,6 +26,12 @@ const systemModule: Module<ISystemState, IRootState> = {
         //     break
         // }
       }
+    },
+    // 获取数据总条数
+    pageListCount(state) {
+      return (pageName: string) => {
+        return (state as any)[`${pageName}Count`]
+      }
     }
   },
   actions: {

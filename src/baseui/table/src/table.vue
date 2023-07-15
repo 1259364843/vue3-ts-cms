@@ -49,9 +49,13 @@
     <div class="footer">
       <slot name="footer">
         <el-pagination
+          :page-size="page.pageSize"
+          :current-page="page.currentPage"
           :page-sizes="[100, 200, 300, 400]"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="listCount"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
         />
         <!-- <el-pagination
           v-model:current-page="currentPage"
@@ -84,6 +88,11 @@ export default defineComponent({
       type: Array,
       required: true
     },
+    // 数据总条数
+    listCount: {
+      type: Number,
+      default: 0
+    },
     propList: {
       type: Array,
       required: true
@@ -97,15 +106,32 @@ export default defineComponent({
     showSelectColumn: {
       type: Boolean,
       default: false
+    },
+    page: {
+      type: Object,
+      default: () => ({
+        currentPage: 0,
+        pageSize: 10
+      })
     }
   },
-  emits: ['selectionChange'],
+  emits: ['selectionChange', 'update:page'],
   setup(props, { emit }) {
     // 表格数据选中
     const handleSelectionChange = (value: any) => {
       emit('selectionChange', value)
     }
-    return { handleSelectionChange }
+    //分页大小改变
+    const handleSizeChange = (pageSize: number) => {
+      emit('update:page', { ...props.page, pageSize })
+      console.log('table-改变分页大小')
+    }
+    // 页码改变
+    const handleCurrentChange = (currentPage: number) => {
+      emit('update:page', { ...props.page, currentPage })
+      console.log('table-改变页码')
+    }
+    return { handleSelectionChange, handleSizeChange, handleCurrentChange }
   }
 })
 </script>
@@ -135,5 +161,8 @@ export default defineComponent({
     text-align: right;
     padding-top: 5px;
   }
+}
+.el-pagination {
+  justify-content: flex-end !important;
 }
 </style>

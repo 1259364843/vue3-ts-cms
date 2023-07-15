@@ -4,46 +4,52 @@ export const searchFormConfig: IForm = {
   labelWidth: '100px',
   formItems: [
     {
-      field: 'username',
+      field: 'id',
+      type: 'input',
+      clearable: true,
+      label: 'id',
+      placeholder: '请输入ID'
+    },
+    {
+      field: 'name',
       type: 'input',
       clearable: true,
       label: '用户名',
       placeholder: '请输入用户名'
     },
     {
-      field: 'password',
-      type: 'password',
+      field: 'realname',
+      type: 'input',
       clearable: true,
-      label: '密码',
-      placeholder: '请输入密码'
+      label: '真实姓名',
+      placeholder: '请输入真实姓名'
     },
     {
-      field: 'like',
+      field: 'cellphone',
+      type: 'input',
+      clearable: true,
+      label: '手机号码',
+      placeholder: '请输入手机号码'
+    },
+    {
+      field: 'enable',
       type: 'select',
       clearable: true,
-      label: '爱好',
-      placeholder: '请选择爱好',
+      label: '用户状态',
+      placeholder: '请选择用户状态',
       options: [
         {
-          label: '唱歌',
-          value: '001'
+          label: '启用',
+          value: 1
         },
         {
-          label: '跳舞',
-          value: '002'
-        },
-        {
-          label: 'rap',
-          value: '003'
-        },
-        {
-          label: '篮球',
-          value: '004'
+          label: '禁用',
+          value: 0
         }
       ]
     },
     {
-      field: 'date',
+      field: 'createAt',
       type: 'datepicker',
       clearable: true,
       label: '创建时间',
