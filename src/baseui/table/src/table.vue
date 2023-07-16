@@ -18,6 +18,7 @@
       stripe
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      v-bind="childrenProps"
     >
       <!-- 是否是多选列 -->
       <el-table-column
@@ -45,7 +46,7 @@
       </template>
     </el-table>
     <!-- 3.页脚 -->
-    <div class="footer">
+    <div class="footer" v-if="showPagination">
       <slot name="footer">
         <el-pagination
           :page-size="page.pageSize"
@@ -112,6 +113,16 @@ export default defineComponent({
         currentPage: 0,
         pageSize: 10
       })
+    },
+    // 表格展开
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    // 是否显示页码
+    showPagination: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['selectionChange', 'update:page'],
