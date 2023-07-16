@@ -16,7 +16,6 @@
       :data="listData"
       border
       stripe
-      height="250"
       style="width: 100%"
       @selection-change="handleSelectionChange"
     >
@@ -34,7 +33,7 @@
         width="60"
       ></el-table-column>
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <template #default="scope">
             <!-- 将row传到上一层 -->
             <slot :name="propItem.slotName" :row="scope.row">

@@ -12,7 +12,13 @@
         :contentConfig="contentConfig"
         :pageName="'users'"
         ref="pageTableRef"
-      ></PageTable>
+      >
+        <template #enable="scope">
+          <el-button plain :type="scope.row.enable ? 'success' : 'danger'">{{
+            scope.row.enable ? '启用' : '禁用'
+          }}</el-button>
+        </template>
+      </PageTable>
     </div>
   </div>
 </template>
