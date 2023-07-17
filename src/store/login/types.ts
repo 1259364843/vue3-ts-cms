@@ -4,4 +4,6 @@ export interface IloginState {
   userInfo: any
   // 用户菜单
   userMenus: any
+  // 用户按钮权限
+  permissions: string[]
 }

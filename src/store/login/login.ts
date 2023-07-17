@@ -10,7 +10,7 @@ import {
   requestUserMenusByRoleId
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
-import { mapMenusToRoutes } from '@/utils/map-menu'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/map-menu'
 // 路由对象
 import router from '@/router'
 // Module必须传入泛型类型,两个参数,第一个是模块中state类型,第二个是根state的类型
@@ -21,7 +21,8 @@ const loginModule: Module<IloginState, IRootState> = {
     return {
       token: '',
       userInfo: {}, //用户信息
-      userMenus: [] //用户菜单信息
+      userMenus: [], //用户菜单信息
+      permissions: [] //用户权限
     }
   },
   mutations: {
@@ -41,6 +42,10 @@ const loginModule: Module<IloginState, IRootState> = {
         router.addRoute('main', route)
       })
       console.log(routes)
+      // 获取用户按钮权限
+      const permissions = mapMenusToPermissions(userMenus)
+      state.permissions = permissions
+      console.log(permissions)
     }
   },
   getters: {},

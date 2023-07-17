@@ -9,7 +9,7 @@
     >
       <!-- 1.header的插槽 -->
       <template #headerHandler>
-        <el-button>新建用户</el-button>
+        <el-button v-if="isCreate">新建用户</el-button>
       </template>
       <!-- 2.列里面的插槽 -->
 
@@ -47,6 +47,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import CHTable from '@/baseui/table'
+import { usePermission } from '@/hooks/use-permisson'
 export default defineComponent({
   components: { CHTable },
   props: {
@@ -60,6 +61,10 @@ export default defineComponent({
     }
   },
   setup(props) {
+    // 获取操作权限
+    const isCreate = usePermission(props.pageName, 'create')
+    console.log(isCreate)
+
     // 1.
     // 分页信息
     const pageInfo = ref({
@@ -112,7 +117,8 @@ export default defineComponent({
       handleCurrentChange,
       getPageData,
       pageInfo,
-      otherPropSlots
+      otherPropSlots,
+      isCreate
     }
   }
 })

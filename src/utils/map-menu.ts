@@ -64,3 +64,21 @@ export function mapPathToBreadcrumbs(menus: any[], path: string) {
   }
   return breadcrumbs
 }
+
+// 菜单映射权限
+export function mapMenusToPermissions(userMenus: any[]) {
+  console.log(userMenus)
+
+  const permissions: string[] = []
+  const _recurseGetPermission = (menus: any[]) => {
+    for (const menu of menus) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermission(menu.children ?? [])
+      } else if (menu.type === 3) {
+        permissions.push(menu.permission)
+      }
+    }
+  }
+  _recurseGetPermission(userMenus)
+  return permissions
+}
