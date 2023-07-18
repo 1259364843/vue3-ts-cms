@@ -9,7 +9,7 @@
     >
       <!-- 1.header的插槽 -->
       <template #headerHandler>
-        <el-button v-if="isCreate">新建用户</el-button>
+        <el-button v-if="isCreate" @click="handleNewClick">新建用户</el-button>
       </template>
       <!-- 2.列里面的插槽 -->
 
@@ -19,10 +19,20 @@
       <template #updateAt="scope">
         <strong type="">{{ $filters.formatTime(scope.row.updateAt) }}</strong>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handle-btns">
-          <el-button type="primary" size="small">编辑</el-button>
-          <el-button type="danger" size="small">删除</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="handleEditClick(scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            type="danger"
+            size="small"
+            @click="handleDeleteClick(scope.row)"
+            >删除</el-button
+          >
         </div>
       </template>
       <!-- 动态插槽start -->
@@ -60,7 +70,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     // 获取操作权限
     const isCreate = usePermission(props.pageName, 'create')
     console.log(isCreate)
@@ -68,7 +79,7 @@ export default defineComponent({
     // 1.
     // 分页信息
     const pageInfo = ref({
-      currentPage: 0,
+      currentPage: 1,
       pageSize: 10
     })
     watch(pageInfo, () => getPageData())
@@ -79,8 +90,8 @@ export default defineComponent({
         // pageUrl: '/users/list',
         pageName: props.pageName,
         queryInfo: {
-          offset: 0,
-          size: 10,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
           ...queryInfo
         }
       })
@@ -110,6 +121,22 @@ export default defineComponent({
       // 返回ture的item才会被返回
       return true
     })
+    // 删除逻辑
+    const handleDeleteClick = (item: any) => {
+      console.log('page-table删除', item)
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+    const handleNewClick = () => {
+      console.log('page-table新建')
+      emit('newBtnClick')
+    }
+    const handleEditClick = (item: any) => {
+      console.log('page-table编辑', item)
+      emit('editBtnClick', item)
+    }
     return {
       listData,
       dataCount,
@@ -118,7 +145,10 @@ export default defineComponent({
       getPageData,
       pageInfo,
       otherPropSlots,
-      isCreate
+      isCreate,
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })

@@ -12,6 +12,8 @@
         :contentConfig="contentConfig"
         :pageName="'users'"
         ref="pageTableRef"
+        @newBtnClick="handleNewData"
+        @editBtnClick="handleEditData"
       >
         <template #enable="scope">
           <el-button plain :type="scope.row.enable ? 'success' : 'danger'">{{
@@ -19,6 +21,7 @@
           }}</el-button>
         </template>
       </PageTable>
+      <PageModal :modalConfig="modalConfig" ref="pageModalRef"></PageModal>
     </div>
   </div>
 </template>
@@ -27,15 +30,20 @@
 import { ref } from 'vue'
 import PageSearch from '@/components/page-search'
 import PageTable from '@/components/page-table'
+import PageModal from '@/components/page-modal'
 import { searchFormConfig } from './config/search.config'
 import { useStore } from '@/store'
 import { contentConfig } from './config/content.config'
+import { modalConfig } from './config/modal.config'
 // hook
 import { usePageSearch } from '@/hooks/use-page-search'
 export default {
   name: 'user',
-  components: { PageSearch, PageTable },
+  components: { PageSearch, PageTable, PageModal },
   setup() {
+    // ref
+    const pageModalRef = ref<InstanceType<typeof PageModal>>()
+    const defaultInfo = ref({})
     // hooks
     const [pageTableRef, handleReset, handleQuery] = usePageSearch()
     // const pageTableRef = ref<InstanceType<typeof PageTable>>()
@@ -64,6 +72,22 @@ export default {
     //   console.log('user-搜索')
     //   pageTableRef.value?.getPageData(queryInfo)
     // }
+
+    // 新增处理
+    const handleNewData = () => {
+      console.log('user新增')
+      // 展示弹窗
+      if (pageModalRef.value) {
+        pageModalRef.value.dialogVisible = true
+      }
+    }
+    const handleEditData = (item: any) => {
+      console.log('user编辑', item)
+      defaultInfo.value = { ...item }
+      if (pageModalRef.value) {
+        pageModalRef.value.dialogVisible = true
+      }
+    }
     return {
       searchFormConfig,
       contentConfig,
@@ -71,7 +95,12 @@ export default {
       handleCurrentChange,
       handleReset,
       handleQuery,
-      pageTableRef
+      pageTableRef,
+      modalConfig,
+      pageModalRef,
+      defaultInfo,
+      handleNewData,
+      handleEditData
     }
   }
 }

@@ -7,3 +7,9 @@ export function getPageListData(url: string, queryInfo: any) {
     data: queryInfo
   })
 }
+// 删除一条记录
+export function deletePageData(url: string) {
+  return acRequest.delete<IDataType>({
+    url
+  })
+}

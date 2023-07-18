@@ -8,7 +8,7 @@
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
-          <el-col :span="8" v-bind="colLayout">
+          <el-col v-bind="colLayout">
             <el-form-item
               :label="item.label"
               :rules="item.rules"
