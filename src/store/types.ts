@@ -4,6 +4,8 @@ import { ISystemState } from './main/system/types'
 export interface IRootState {
   name: string
   age: number
+  entireDepartment: any[] //全部部门
+  entireRole: any[] //全部角色
 }
 export interface IRootWithModule {
   login: IloginState

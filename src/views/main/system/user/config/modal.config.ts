@@ -1,4 +1,5 @@
-export const modalConfig = {
+import { IForm } from '@/baseui/form'
+export const modalConfig: IForm = {
   formItems: [
     {
       field: 'name',
@@ -19,7 +20,8 @@ export const modalConfig = {
       type: 'password',
       clearable: true,
       label: '密码',
-      placeholder: '请输入密码'
+      placeholder: '请输入密码',
+      isHidden: false
     },
     {
       field: 'cellphone',
@@ -27,6 +29,22 @@ export const modalConfig = {
       clearable: true,
       label: '电话号码',
       placeholder: '请输入电话号码'
+    },
+    {
+      field: 'roleId',
+      type: 'select',
+      clearable: true,
+      label: '角色',
+      placeholder: '请选择角色',
+      options: []
+    },
+    {
+      field: 'department',
+      type: 'select',
+      clearable: true,
+      label: '选择部门',
+      placeholder: '请选择部门',
+      options: []
     }
   ],
   itemStyle: {},

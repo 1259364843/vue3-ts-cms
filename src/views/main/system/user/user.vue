@@ -21,13 +21,17 @@
           }}</el-button>
         </template>
       </PageTable>
-      <PageModal :modalConfig="modalConfig" ref="pageModalRef"></PageModal>
+      <PageModal
+        :modalConfig="modalConfigRef"
+        :defaultInfo="defaultInfo"
+        ref="pageModalRef"
+      ></PageModal>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import PageSearch from '@/components/page-search'
 import PageTable from '@/components/page-table'
 import PageModal from '@/components/page-modal'
@@ -72,9 +76,12 @@ export default {
     //   console.log('user-搜索')
     //   pageTableRef.value?.getPageData(queryInfo)
     // }
-
+    const passwordItem = modalConfig.formItems.find(
+      (item) => item.field === 'password'
+    )
     // 新增处理
     const handleNewData = () => {
+      defaultInfo.value = {}
       console.log('user新增')
       // 展示弹窗
       if (pageModalRef.value) {
@@ -82,12 +89,31 @@ export default {
       }
     }
     const handleEditData = (item: any) => {
+      // 隐藏密码输入框
+      passwordItem!.isHidden = true
       console.log('user编辑', item)
       defaultInfo.value = { ...item }
       if (pageModalRef.value) {
         pageModalRef.value.dialogVisible = true
       }
     }
+    // 动态添加选择器选项数据
+    const modalConfigRef = computed(() => {
+      const departmentItem = modalConfig.formItems.find(
+        (item) => item.field === 'department'
+      )
+      departmentItem!.options = store.state.entireDepartment.map((item) => {
+        return { label: item.name, value: item.id }
+      })
+      const roleItem = modalConfig.formItems.find(
+        (item) => item.field === 'roleId'
+      )
+      roleItem!.options = store.state.entireRole.map((item) => {
+        return { label: item.name, value: item.id }
+      })
+      return modalConfig
+    })
+
     return {
       searchFormConfig,
       contentConfig,
@@ -100,7 +126,8 @@ export default {
       pageModalRef,
       defaultInfo,
       handleNewData,
-      handleEditData
+      handleEditData,
+      modalConfigRef
     }
   }
 }
