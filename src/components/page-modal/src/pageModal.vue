@@ -12,7 +12,7 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">
+            <el-button type="primary" @click="handleConfirmClick">
               确定
             </el-button>
           </span>
@@ -24,6 +24,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 import CHForm from '@/baseui/form'
 export default defineComponent({
   name: 'PageModal',
@@ -38,6 +39,10 @@ export default defineComponent({
     defaultInfo: {
       type: Object,
       default: () => ({})
+    },
+    pageName: {
+      type: String,
+      require: true
     }
   },
   setup(props) {
@@ -52,7 +57,26 @@ export default defineComponent({
         }
       }
     )
-    return { dialogVisible, formData }
+    const store = useStore()
+    // 确定按钮处理逻辑
+    const handleConfirmClick = () => {
+      dialogVisible.value = false
+      if (Object.keys(props.defaultInfo).length) {
+        // 编辑
+        store.dispatch('system/editPageDataAction', {
+          pageName: props.pageName,
+          newData: { ...formData.value },
+          id: props.defaultInfo.id
+        })
+      } else {
+        // 新建
+        store.dispatch('system/createPageDataAction', {
+          pageName: props.pageName,
+          newData: { ...formData.value }
+        })
+      }
+    }
+    return { dialogVisible, formData, handleConfirmClick }
   }
 })
 </script>

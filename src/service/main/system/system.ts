@@ -13,3 +13,17 @@ export function deletePageData(url: string) {
     url
   })
 }
+// 创建用户
+export function createPageData(url: string, newData: any) {
+  return acRequest.post<IDataType>({
+    url,
+    data: newData
+  })
+}
+// 编辑用户
+export function editPageData(url: string, newData: any) {
+  return acRequest.patch<IDataType>({
+    url,
+    data: newData
+  })
+}

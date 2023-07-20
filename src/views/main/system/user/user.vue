@@ -22,6 +22,7 @@
         </template>
       </PageTable>
       <PageModal
+        :pageName="'users'"
         :modalConfig="modalConfigRef"
         :defaultInfo="defaultInfo"
         ref="pageModalRef"
@@ -81,6 +82,7 @@ export default {
     )
     // 新增处理
     const handleNewData = () => {
+      passwordItem!.isHidden = false
       defaultInfo.value = {}
       console.log('user新增')
       // 展示弹窗
