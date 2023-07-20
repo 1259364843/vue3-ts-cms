@@ -13,6 +13,7 @@
               :label="item.label"
               :rules="item.rules"
               :style="itemStyle"
+              v-if="!item.isHidden"
             >
               <!-- 1.判断输入组件类型 -->
               <!-- 1.1输入框 -->

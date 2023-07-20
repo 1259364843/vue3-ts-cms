@@ -12,6 +12,7 @@ export interface IFormItem {
   options?: any[] //下拉选择器选项
   // 其他特殊属性
   otherOptions?: any
+  isHidden?: boolean //是否隐藏
 }
 // 合并类型
 export interface IForm {
