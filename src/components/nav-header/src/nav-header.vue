@@ -8,6 +8,7 @@
     </div>
     <div class="content">
       <nav-breadcrumb :breadcrumbs="breadcrumbs" />
+      <el-button type="" @click="handleExitClick">退出登录</el-button>
       <!-- <header-crumb /> -->
       <!-- <header-info /> -->
     </div>
@@ -17,9 +18,10 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import { useStore } from '@/store'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import NavBreadcrumb from '@/baseui/breadcrumb'
 import { mapPathToBreadcrumbs } from '@/utils/map-menu'
+import localCache from '@/utils/cache'
 export default defineComponent({
   name: 'nav-header',
   components: { NavBreadcrumb },
@@ -39,7 +41,13 @@ export default defineComponent({
       const currentPath = route.path
       return mapPathToBreadcrumbs(userMenus, currentPath)
     })
-    return { isFold, handleFoldClick, breadcrumbs }
+    const router = useRouter()
+    const handleExitClick = () => {
+      console.log('退出登录')
+      localCache.deleteCache('token')
+      router.push('/main')
+    }
+    return { isFold, handleFoldClick, breadcrumbs, handleExitClick }
   }
 })
 </script>
