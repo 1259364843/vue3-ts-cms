@@ -51,7 +51,7 @@ const loginModule: Module<IloginState, IRootState> = {
   getters: {},
   actions: {
     // 账号登录action
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       console.log('accountLoginAction', payload)
       // 1.实现登录逻辑
       const loginResult = await accountLoginRequest(payload)
@@ -68,7 +68,8 @@ const loginModule: Module<IloginState, IRootState> = {
       // 存储用户信息
       commit('changeUserInfo', userInfo)
       localCache.setCache('userInfo', userInfo)
-
+      // 发送初始化请求
+      dispatch('getInitialDataAction', null, { root: true })
       // 3.请求用户菜单
       const userMenusResult = await requestUserMenusByRoleId(userInfo.role.id)
       const userMenus = userMenusResult.data

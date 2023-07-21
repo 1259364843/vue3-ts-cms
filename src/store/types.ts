@@ -6,6 +6,7 @@ export interface IRootState {
   age: number
   entireDepartment: any[] //全部部门
   entireRole: any[] //全部角色
+  entireMenu: any[] //全部菜单
 }
 export interface IRootWithModule {
   login: IloginState
