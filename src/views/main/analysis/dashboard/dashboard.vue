@@ -4,11 +4,11 @@
     <!-- <div id="chart" ref="divRef" style="width: 500px; height: 200px"></div> -->
     <el-row gutter="10">
       <el-col :span="7">
-        <Card title="饼图"></Card>
+        <Card title="饼图"><PieEchart :pieData="categoryGoodsCount" /></Card>
       </el-col>
       <el-col :span="10">
         <Card title="不同城市销量">
-          <PieEchart :pieData="categoryGoodsCount" /> </Card
+          <RoseEchart :roseData="categoryGoodsCount" /></Card
       ></el-col>
       <el-col :span="7"> <Card title="饼图"></Card></el-col>
     </el-row>
@@ -24,19 +24,19 @@ import { defineComponent, onMounted, ref, computed } from 'vue'
 
 import { useStore } from '@/store'
 import Card from '@/baseui/card/card.vue'
-import { PieEchart } from '@/components/page-echart'
+import { PieEchart, RoseEchart } from '@/components/page-echart'
 export default defineComponent({
   name: 'dashboard',
-  components: { Card, PieEchart },
+  components: { Card, PieEchart, RoseEchart },
   setup() {
     const store = useStore()
     store.dispatch('dashboard/getDashboardDataAction')
+    // 饼图数据
     const categoryGoodsCount = computed(() => {
       return store.state.dashboard.categoryGoodsCount.map((item) => {
         return { name: item.name, value: item.goodsCount }
       })
     })
-    console.log(categoryGoodsCount, 1111)
     return { categoryGoodsCount }
   }
 })
