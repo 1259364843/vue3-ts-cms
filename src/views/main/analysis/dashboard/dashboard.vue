@@ -10,10 +10,13 @@
         <Card title="不同城市销量">
           <RoseEchart :roseData="categoryGoodsCount" /></Card
       ></el-col>
-      <el-col :span="7"> <Card title="饼图"></Card></el-col>
+      <el-col :span="7"> <Card title="饼图"> </Card></el-col>
     </el-row>
     <el-row gutter="10" class="content-row">
-      <el-col :span="12"> <Card title="分类商品销量"></Card></el-col>
+      <el-col :span="12">
+        <Card title="分类商品销量">
+          <LineEchart v-bind="categoryGoodsSale" /> </Card
+      ></el-col>
       <el-col :span="12"> <Card title="分类商品收藏"></Card></el-col>
     </el-row>
   </div>
@@ -24,10 +27,10 @@ import { defineComponent, onMounted, ref, computed } from 'vue'
 
 import { useStore } from '@/store'
 import Card from '@/baseui/card/card.vue'
-import { PieEchart, RoseEchart } from '@/components/page-echart'
+import { PieEchart, RoseEchart, LineEchart } from '@/components/page-echart'
 export default defineComponent({
   name: 'dashboard',
-  components: { Card, PieEchart, RoseEchart },
+  components: { Card, PieEchart, RoseEchart, LineEchart },
   setup() {
     const store = useStore()
     store.dispatch('dashboard/getDashboardDataAction')
@@ -37,7 +40,18 @@ export default defineComponent({
         return { name: item.name, value: item.goodsCount }
       })
     })
-    return { categoryGoodsCount }
+    const categoryGoodsSale = computed(() => {
+      const xLabels: string[] = []
+      const values: any[] = []
+      const categoryGoodsSale = store.state.dashboard.categoryGoodsSale
+      for (const item of categoryGoodsSale) {
+        xLabels.push(item.name)
+        values.push(item.goodsCount)
+      }
+      return { xLabels, values }
+    })
+
+    return { categoryGoodsCount, categoryGoodsSale }
   }
 })
 </script>
